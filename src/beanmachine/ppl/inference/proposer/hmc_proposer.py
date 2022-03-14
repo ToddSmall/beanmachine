@@ -67,12 +67,6 @@ class HMCProposer(BaseProposer):
         self._positions = self._to_unconstrained(
             {node: initial_world[node] for node in self._target_rvs}
         )
-        # cache pe and pe_grad to prevent re-computation
-        if nnc_compile:
-            from .nnc_utils import nnc_jit
-
-            self._potential_grads = nnc_jit(self._potential_grads)
-
         self._pe, self._pe_grad = self._potential_grads(self._positions)
         # initialize parameters
         self.trajectory_length = trajectory_length
